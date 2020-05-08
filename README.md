@@ -1,6 +1,6 @@
 # Note editor api (python / Flask)
 
-** To start: **
+-- To start: --
 docker-compose up -d --build
 
 ## API Documentation
