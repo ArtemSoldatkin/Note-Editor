@@ -1,6 +1,7 @@
 # Note editor api (python / Flask)
 
--- To start: --
+**To start:**
+
 docker-compose up -d --build
 
 ## API Documentation
@@ -19,6 +20,7 @@ Returns all saved notes.
   None
 - Success Response:
   - Code: 200 OK
+  
     Content: {notes: [{
     text: "text",
     ID: "6b87d44f-d563-4ed5-961a-c5d67504e066",
@@ -49,9 +51,11 @@ Add note to list.
   text=[string]
 - Success Response:
   - Code: 200 OK
+  
     Content: { message: "OK" }
 - Error Response:
   - Code: 500 INTERNAL SERVER ERROR
+  
     Content: { message: "Server error, try later" }
 
 #### Edit note
@@ -68,12 +72,15 @@ Edit node by id.
   text=[string]
 - Success Response:
   - Code: 200 OK
+  
     Content: { message: "OK" }
 - Error Response:
   - Code: 400 BAD REQUEST
+  
     Content: { message: "Note is not found" }
     OR
   - Code: 500 INTERNAL SERVER ERROR
+  
     Content: { message: "Server error, try later" }
 
 #### Remove note
@@ -90,7 +97,9 @@ Remove note from list.
   None
 - Success Response:
   - Code: 200 OK
+  
     Content: { message: "OK" }
 - Error Response:
   - Code: 500 INTERNAL SERVER ERROR
+  
     Content: { message: "Server error, try later" }
