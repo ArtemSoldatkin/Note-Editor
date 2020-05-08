@@ -11,10 +11,11 @@ docker-compose up -d --build
 Returns all saved notes.
 
 - URL
+
   /get-notes
-- Method
+- Method__
   GET
-- URL Params
+- URL Params__
   None
 - Data Params
   None
