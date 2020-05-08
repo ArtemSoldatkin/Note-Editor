@@ -1,8 +1,10 @@
 from flask import Flask, jsonify, request
+from flask.logging import create_logger
 from note_list import NoteList
 from note import Note
 
 app = Flask(__name__)
+log = create_logger(app)
 
 NoteList = NoteList()
 
@@ -16,8 +18,10 @@ def getNotes():
 def addNote():
     body = request.get_json(force=True)
     text = body.get("text")
-    NoteList.addNote(Note(text))
-    return jsonify("OK"), 200
+    note = Note(text)
+    log.info(f"New note {note.ID}")
+    NoteList.addNote(note)
+    return jsonify({"message": "OK"}), 200
 
 
 @app.route("/edit-note/<id>", methods=["PUT"])
@@ -25,24 +29,26 @@ def changeNote(id):
     body = request.get_json(force=True)
     text = body.get("text")
     NoteList.editNote(id, text)
-    return jsonify("OK"), 200
+    log.info(f"Note {id} is changed")
+    return jsonify({"message": "OK"}), 200
 
 
 @app.route("/remove-note/<id>", methods=["DELETE"])
 def removeNote(id):
     NoteList.removeNote(id)
-    return jsonify("OK"), 200
+    log.info(f"Note {id} was deleted")
+    return jsonify({"message": "OK"}), 200
 
 # Errors
 @app.errorhandler(400)
 def error400(e):
-    print(e, flush=True)
+    log.error(e)
     return jsonify({"message": e.description}), 400
 
 
 @app.errorhandler(500)
 def handle_exception(e):
-    print(e, flush=True)
+    log.error(e)
     return jsonify("Server error, try later"), 500
 
 
