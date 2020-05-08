@@ -1,16 +1,15 @@
+from flask import Flask, jsonify, request
 from note_list import NoteList
 from note import Note
 
-from flask import Flask, jsonify, request
 app = Flask(__name__)
 
 NoteList = NoteList()
 
-# add errors
+# Routes
 @app.route('/get-notes', methods=["GET"])
 def getNotes():
-    # add json serialize at NoteList
-    return jsonify(str(NoteList)), 200
+    return jsonify(NoteList.toJson()), 200
 
 
 @app.route("/add-note", methods=["POST"])
@@ -33,6 +32,18 @@ def changeNote(id):
 def removeNote(id):
     NoteList.removeNote(id)
     return jsonify("OK"), 200
+
+# Errors
+@app.errorhandler(400)
+def error400(e):
+    print(e, flush=True)
+    return jsonify({"message": e.description}), 400
+
+
+@app.errorhandler(500)
+def handle_exception(e):
+    print(e, flush=True)
+    return jsonify("Server error, try later"), 500
 
 
 if __name__ == "__main__":

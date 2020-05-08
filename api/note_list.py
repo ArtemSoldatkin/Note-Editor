@@ -1,10 +1,15 @@
+from json import dumps
+from utils import jsonDefault
+from flask import abort
+
+
 class NoteList:
 
     def __init__(self):
         self.notes = []
 
-    def __str__(self):
-        return ", ".join(str(note) for note in self.notes)
+    def toJson(self):
+        return dumps(self, default=jsonDefault)
 
     def addNote(self, note):
         self.notes.append(note)
@@ -18,7 +23,7 @@ class NoteList:
     def editNote(self, noteID, newText):
         note = self.__findNote(noteID)
         if not note:
-            return
+            abort(400, "Note is not found")
         note.edit(newText)
 
     def removeNote(self, noteID):
